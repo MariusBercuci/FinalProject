@@ -4,10 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ro.sda.javaro38.finalproject.dto.UserDto;
-import ro.sda.javaro38.finalproject.entity.User;
-import ro.sda.javaro38.finalproject.repository.UserRepository;
-import ro.sda.javaro38.finalproject.services.UserServices;
+import ro.sda.finalproject.backend.dto.UserDto;
+import ro.sda.finalproject.backend.services.UserServices;
+
 
 import java.util.List;
 

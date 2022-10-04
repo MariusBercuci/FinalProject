@@ -1,7 +1,8 @@
 package ro.sda.finalproject.backend.mapper;
 
-import ro.sda.javaro38.finalproject.dto.UserDto;
-import ro.sda.javaro38.finalproject.entity.User;
+
+import ro.sda.finalproject.backend.dto.UserDto;
+import ro.sda.finalproject.backend.entity.User;
 
 public class UserMapper implements Mapper<User, UserDto> {
     @Override

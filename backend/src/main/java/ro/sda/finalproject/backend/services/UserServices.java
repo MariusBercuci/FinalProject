@@ -2,10 +2,10 @@ package ro.sda.finalproject.backend.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import ro.sda.javaro38.finalproject.dto.UserDto;
-import ro.sda.javaro38.finalproject.entity.User;
-import ro.sda.javaro38.finalproject.mapper.UserMapper;
-import ro.sda.javaro38.finalproject.repository.UserRepository;
+import ro.sda.finalproject.backend.dto.UserDto;
+import ro.sda.finalproject.backend.entity.User;
+import ro.sda.finalproject.backend.mapper.UserMapper;
+import ro.sda.finalproject.backend.repository.UserRepository;
 
 
 import java.util.List;
