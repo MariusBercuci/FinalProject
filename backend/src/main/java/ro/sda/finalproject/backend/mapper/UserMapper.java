@@ -1,9 +1,10 @@
 package ro.sda.finalproject.backend.mapper;
 
 
+import org.springframework.stereotype.Service;
 import ro.sda.finalproject.backend.dto.UserDto;
 import ro.sda.finalproject.backend.entity.User;
-
+@Service
 public class UserMapper implements Mapper<User, UserDto> {
     @Override
     public UserDto convertToDto(User entity) {

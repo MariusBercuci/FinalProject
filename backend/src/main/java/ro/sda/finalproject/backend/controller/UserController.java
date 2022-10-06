@@ -5,51 +5,47 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.UserDto;
+import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.services.UserServices;
 
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/api/users")
+@RequestMapping(path = "/api/user")
 public class UserController {
 
     @Autowired
     private UserServices userServices;
 
-    @GetMapping
-    public ResponseEntity<List<UserDto>> getAllClients() {
+    @GetMapping("/all")
+    public ResponseEntity<List<UserDto>> getAllUsers() {
         List<UserDto> userDtoList = userServices.findAllUsers();
         return new ResponseEntity<>(userDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<UserDto> getUserById(@PathVariable("userId") Long id) {
+    @GetMapping("/find/{id}")
+    public ResponseEntity<UserDto> getUserById(@PathVariable("id") Long id) {
         UserDto userDto = userServices.getUserById(id);
         return new ResponseEntity<>(userDto, HttpStatus.OK);
     }
 
-    @PostMapping()
-    public UserDto addNewClient(@RequestBody UserDto request) {
-        return userServices.save(request);
+    @PostMapping("/create")
+    public ResponseEntity<UserDto> createNewUser(@RequestBody @Valid UserDto userDto) throws EmailExistException {
+        UserDto newUserDto = userServices.createNewUser(userDto);
+        return new ResponseEntity<>(newUserDto,HttpStatus.CREATED);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable("userId") Long id, @RequestBody UserDto userDto) {
+    @PutMapping("/{id}")
+    public ResponseEntity<UserDto> updateUser(@PathVariable("id") Long id, @RequestBody @Valid UserDto userDto) {
         UserDto newUserDto = userServices.updateUser(id, userDto);
         return new ResponseEntity<>(newUserDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId")Long id){
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id")Long id){
         userServices.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-//    @GetMapping(path = "/all")
-//    public @ResponseBody Iterable < Client > getAllUsers() {
-//        return clientRepository.findAll();
-//    }
-
 }
