@@ -24,6 +24,6 @@ public class UserDto {
     private String firstName;
     @NotEmpty
     private String lastName;
-    @Pattern(regexp = "[\\d]{10}")
+    @Pattern(message = "Phone number is not valid" , regexp = "[\\d]{10}")
     private String phone;
 }

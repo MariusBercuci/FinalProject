@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ro.sda.finalproject.backend.dto.UserDto;
 import ro.sda.finalproject.backend.entity.User;
@@ -12,8 +13,6 @@ import ro.sda.finalproject.backend.exception.UserNotFoundException;
 import ro.sda.finalproject.backend.mapper.UserMapper;
 import ro.sda.finalproject.backend.repository.UserRepository;
 
-
-import java.sql.SQLOutput;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -25,6 +24,7 @@ public class UserServices implements UserDetailsService {
 
     public UserRepository userRepository;
     public UserMapper userMapper;
+    private BCryptPasswordEncoder passwordEncoder;
 
     public List<UserDto> findAllUsers() {
         return userRepository.findAll().stream().map(userMapper::convertToDto).collect(Collectors.toList());
@@ -47,14 +47,14 @@ public class UserServices implements UserDetailsService {
         return userMapper.convertToDto(newUser);
     }
 
-    public UserDto updateUser(Long id, UserDto userDto) {
+    public UserDto updateUser(UserDto userDto) {
         User currentUser = userMapper.convertToEntity(userDto);
 
         currentUser.setEmail(userDto.getEmail());
         currentUser.setLastName(userDto.getLastName());
         currentUser.setPhone(userDto.getPhone());
         currentUser.setFirstName(userDto.getFirstName());
-        currentUser.setPassword(userDto.getPassword());
+        currentUser.setPassword(passwordEncoder.encode(userDto.getPassword()));
         userRepository.save(currentUser);
         return userMapper.convertToDto(currentUser);
     }

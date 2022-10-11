@@ -1,12 +1,8 @@
 package ro.sda.finalproject.backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
-import javax.validation.constraints.NotEmpty;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -14,8 +10,10 @@ import javax.validation.constraints.Size;
 @Data
 @Table(schema = "users")
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
