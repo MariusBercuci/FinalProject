@@ -54,8 +54,4 @@ public class ProductsServices{
 
     public void deleteProducts(Long id){productsRepository.deleteById(id);}
 
-//    @Override
-//    public ProductsDetails loadProductsByProductsName(String productsName) throws ProductsNameNotFoundException{
-//        return null;
-//    }
 }

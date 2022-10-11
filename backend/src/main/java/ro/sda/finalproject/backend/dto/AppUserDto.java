@@ -1,18 +1,19 @@
 package ro.sda.finalproject.backend.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-
-@Getter
-@Setter
 @Service
-public class UserDto {
+@Data
+@Validated
+@NoArgsConstructor
+@AllArgsConstructor
+public class AppUserDto {
 
     private Long id;
     @NotEmpty
@@ -26,4 +27,12 @@ public class UserDto {
     private String lastName;
     @Pattern(message = "Phone number is not valid" , regexp = "[\\d]{10}")
     private String phone;
+
+    public void AppUserDto(String firstName, String lastName, String email, String password, String phone) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+    }
 }

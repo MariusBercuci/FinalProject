@@ -1,13 +1,14 @@
 package ro.sda.finalproject.backend.dto;
 
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.annotation.Validated;
 
-@Getter
-@Setter
-@Service
+@Data
+@Validated
+@NoArgsConstructor
+@AllArgsConstructor
 public class ProductsDto {
 
 

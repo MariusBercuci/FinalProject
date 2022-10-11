@@ -19,32 +19,32 @@ public class ProductsController {
     @Autowired
     private ProductsServices productsServices;
 
-    @GetMapping("/all")
+    @GetMapping("")
     public ResponseEntity<List<ProductsDto>> getAllProducts(){
         List<ProductsDto> productsDtoList = productsServices.findAllProducts();
         return new ResponseEntity<>(productsDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<ProductsDto> getProductsById(@PathVariable("id") Long id){
+    @GetMapping("/{productId}")
+    public ResponseEntity<ProductsDto> getProductsById(@PathVariable("productId") Long id){
         ProductsDto productsDto = productsServices.getProductsById(id);
         return new ResponseEntity<>(productsDto, HttpStatus.OK);
     }
 
-    @PostMapping("/create")
+    @PostMapping("")
     public ResponseEntity<ProductsDto> createNewProducts(@RequestBody @Valid ProductsDto productsDto) throws IdExistException{
         ProductsDto newProductsDto = productsServices.createNewProducts(productsDto);
         return new ResponseEntity<>(newProductsDto, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<ProductsDto> updateProducts(@PathVariable("id") Long id, @RequestBody @Valid ProductsDto productsDto){
+    @PutMapping("/{productId}")
+    public ResponseEntity<ProductsDto> updateProducts(@PathVariable("productId") Long id, @RequestBody @Valid ProductsDto productsDto){
         ProductsDto newProductsDto = productsServices.updateProducts(id, productsDto);
         return new ResponseEntity<>(newProductsDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteProducts(@PathVariable("id")Long id){
+    @DeleteMapping("/{productId}")
+    public ResponseEntity<?> deleteProducts(@PathVariable("productId")Long id){
         productsServices.deleteProducts(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
