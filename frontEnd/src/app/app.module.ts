@@ -6,11 +6,12 @@ import { HomeComponent } from './components/pages/home/home.component';
 import { ActivatedRoute, RouterModule, Routes } from '@angular/router';
 import { SearchComponent } from './components/partial/search/search.component';
 import { TagsComponent } from './components/partial/tags/tags.component';
-import { FoodPageComponent } from './coomponents/pages/food-page/food-page.component';
+
 
 const routes: Routes = [
   {path:'', component:HomeComponent},
-  {path:'search/:searchTerm', component:HomeComponent}
+  {path:'search/:searchTerm', component:HomeComponent},
+  {path: 'tag/:tag', component:HomeComponent}
 ];
 
 @NgModule({
@@ -20,7 +21,7 @@ const routes: Routes = [
     HomeComponent,
     SearchComponent,
     TagsComponent,
-    FoodPageComponent
+
 
   ],
   imports: [
