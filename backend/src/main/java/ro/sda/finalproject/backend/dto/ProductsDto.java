@@ -2,8 +2,8 @@ package ro.sda.finalproject.backend.dto;
 
 
 import lombok.*;
-import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
+import ro.sda.finalproject.backend.entity.ProductImage;
 
 @Data
 @Validated
@@ -11,11 +11,10 @@ import org.springframework.validation.annotation.Validated;
 @AllArgsConstructor
 public class ProductsDto {
 
-
-    private Long id;
+    private Long productId;
     private String productName;
     private Double productPrice;
     private String productDetails;
-    private String productIcon;
+    private ProductImage productImage;
     private Long productCode;
 }

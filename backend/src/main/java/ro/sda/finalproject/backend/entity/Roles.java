@@ -12,7 +12,6 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @Table(name = "roles")
 @NoArgsConstructor
-@AllArgsConstructor
 public class Roles {
     @Id
     @Column(name = "role_id", nullable = false, updatable = false)

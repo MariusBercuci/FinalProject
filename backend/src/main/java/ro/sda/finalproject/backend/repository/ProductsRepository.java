@@ -10,6 +10,5 @@ import java.util.Optional;
 @Repository
 //@Transactional
 public interface ProductsRepository extends JpaRepository<Products, Long>{
-        Optional<Products> findProductsById(Long id);
 
 }

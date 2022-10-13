@@ -2,6 +2,7 @@ package ro.sda.finalproject.backend.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import ro.sda.finalproject.backend.dto.ProductsDto;
 import ro.sda.finalproject.backend.entity.Products;
 import ro.sda.finalproject.backend.exception.IdExistException;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
-public class ProductsServices{
+public class ProductsServices {
 
     public ProductsRepository productsRepository;
     public ProductsMapper productsMapper;
@@ -24,34 +25,39 @@ public class ProductsServices{
         return productsRepository.findAll().stream().map(productsMapper::convertToDto).collect(Collectors.toList());
     }
 
-    public ProductsDto getProductsById(Long id){
-        Products products = productsRepository.findById(id).orElseThrow(() ->new ProductsNotFoundException("No products by id" + id + "not found."));
+    public ProductsDto getProductsById(Long productId) {
+        Products products = productsRepository.findById(productId).orElseThrow(() -> new ProductsNotFoundException("No products by id" + productId + "not found."));
         return productsMapper.convertToDto(products);
     }
 
-    public ProductsDto createNewProducts(ProductsDto productsDto){
+
+    public ProductsDto createNewProducts(ProductsDto productsDto) {
         Products newProducts = productsMapper.convertToEntity(productsDto);
-        Optional<Products> optionalProducts = productsRepository.findProductsById(newProducts.getId());
-        if(optionalProducts.isPresent()){
-            throw new IdExistException("The id" + newProducts.getId() + "is already in use");
-        }else {
-            productsRepository.save(newProducts);
+        if (newProducts.getProductId() != null) {
+            Optional<Products> optionalProducts = productsRepository.findById(newProducts.getProductId());
+            if (optionalProducts.isPresent()) {
+                throw new IdExistException("The id" + newProducts.getProductId() + "is already in use");
+            }
         }
+        productsRepository.save(newProducts);
+
         return productsMapper.convertToDto(newProducts);
     }
 
-    public ProductsDto updateProducts(Long id, ProductsDto productsDto){
+    public ProductsDto updateProducts(Long id, ProductsDto productsDto) {
         Products currentProducts = productsMapper.convertToEntity(productsDto);
-        currentProducts.setId(productsDto.getId());
+        currentProducts.setProductId(productsDto.getProductId());
         currentProducts.setProductName(productsDto.getProductName());
         currentProducts.setProductPrice(productsDto.getProductPrice());
         currentProducts.setProductDetails(productsDto.getProductDetails());
-        currentProducts.setProductIcon(productsDto.getProductIcon());
+        currentProducts.setProductImage(productsDto.getProductImage());
         currentProducts.setProductCode(productsDto.getProductCode());
         productsRepository.save(currentProducts);
         return productsMapper.convertToDto(currentProducts);
     }
 
-    public void deleteProducts(Long id){productsRepository.deleteById(id);}
+    public void deleteProducts(Long id) {
+        productsRepository.deleteById(id);
+    }
 
 }
