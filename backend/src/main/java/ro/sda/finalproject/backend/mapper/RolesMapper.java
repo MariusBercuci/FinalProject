@@ -10,14 +10,14 @@ public class RolesMapper implements Mapper<Roles, RolesDto>{
     public RolesDto convertToDto(Roles entity) {
         RolesDto dto = new RolesDto();
         dto.setId(entity.getId());
-        dto.setRole(entity.getRole());
+        dto.setRoles(entity.getRoles());
         return dto;
     }
 
     @Override
     public Roles convertToEntity(RolesDto dto) {
         Roles entity = new Roles();
-        entity.setRole(dto.getRole());
+        entity.setRoles(dto.getRoles());
         entity.setId(dto.getId());
         return entity;
     }

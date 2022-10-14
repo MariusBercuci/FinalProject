@@ -13,7 +13,6 @@ import ro.sda.finalproject.backend.entity.RolesName;
 public class RolesDto {
 
     private Long id;
-
-    private RolesName role;
+    private RolesName roles;
 
 }

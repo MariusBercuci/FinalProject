@@ -2,7 +2,6 @@ package ro.sda.finalproject.backend.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -23,14 +22,15 @@ public class ProductsController {
     @Autowired
     private ProductsServices productsServices;
 
+
     @GetMapping("")
-    public ResponseEntity<List<ProductsDto>> getAllProducts(){
+    public ResponseEntity<List<ProductsDto>> getAllProducts() {
         List<ProductsDto> productsDtoList = productsServices.findAllProducts();
         return new ResponseEntity<>(productsDtoList, HttpStatus.OK);
     }
 
     @GetMapping(value = "/{productId}")
-    public ResponseEntity<ProductsDto> getProductsById(@PathVariable("productId") Long id){
+    public ResponseEntity<ProductsDto> getProductsById(@PathVariable("productId") Long id) {
         ProductsDto productsDto = productsServices.getProductsById(id);
         return new ResponseEntity<>(productsDto, HttpStatus.OK);
     }
@@ -58,39 +58,33 @@ public class ProductsController {
     }
 
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductsDto> updateProduct (@PathVariable("productId") Long productId, MultipartFile file){
-        ProductsDto searchedProduct= productsServices.getProductsById(productId);
+    public ResponseEntity<ProductsDto> updateProduct(@PathVariable("productId") Long productId, MultipartFile file) {
+        ProductsDto searchedProduct = productsServices.getProductsById(productId);
         ProductImage images = null;
         try {
-            images= uploadImage(file);
+            images = uploadImage(file);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
         searchedProduct.setProductImage(images);
 
-        ProductsDto newProductsDto = productsServices.updateProducts(productId,searchedProduct);
-        return  new ResponseEntity<>(newProductsDto, HttpStatus.OK);
+        ProductsDto newProductsDto = productsServices.updateProducts(productId, searchedProduct);
+        return new ResponseEntity<>(newProductsDto, HttpStatus.OK);
     }
 
-//    @PutMapping("/{productId}")
-//    public ResponseEntity<ProductsDto> updateProducts(@PathVariable("productId") Long productId, @RequestBody @Valid ProductsDto productsDto){
-//        ProductsDto newProductsDto = productsServices.updateProducts(productId, productsDto);
-//        return new ResponseEntity<>(newProductsDto, HttpStatus.OK);
-//    }
 
     @DeleteMapping("/{productId}")
-    public ResponseEntity<?> deleteProducts(@PathVariable("productId")Long productId){
+    public ResponseEntity<?> deleteProducts(@PathVariable("productId") Long productId) {
         productsServices.deleteProducts(productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    private ProductImage uploadImage(MultipartFile file) throws IOException{
-            ProductImage productImage = ProductImage.builder()
-                    .imageName(file.getName())
-                    .imageType(file.getContentType())
-                    .picByte(file.getBytes())
-                    .build();
-
+    private ProductImage uploadImage(MultipartFile file) throws IOException {
+        ProductImage productImage = ProductImage.builder()
+                .imageName(file.getOriginalFilename())
+                .imageType(file.getContentType())
+                .picByte(file.getBytes())
+                .build();
 
         return productImage;
     }
