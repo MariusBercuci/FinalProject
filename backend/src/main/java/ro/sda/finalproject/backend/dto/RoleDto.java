@@ -4,15 +4,15 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
-import ro.sda.finalproject.backend.entity.RolesName;
+import ro.sda.finalproject.backend.entity.enums.RoleName;
 
 @Data
 @Validated
 @NoArgsConstructor
 @AllArgsConstructor
-public class RolesDto {
+public class RoleDto {
 
     private Long id;
-    private RolesName roles;
+    private RoleName role;
 
 }

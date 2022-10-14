@@ -8,8 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.dto.LoginDto;
-import ro.sda.finalproject.backend.entity.Roles;
-import ro.sda.finalproject.backend.entity.RolesName;
+import ro.sda.finalproject.backend.entity.enums.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.services.AppUserServices;
 
@@ -22,30 +21,31 @@ import java.util.List;
 @RequestMapping(path = "/api/users")
 public class AppUserController {
 
-    private final AppUserServices appUserServices;
+    private AppUserServices appUserServices;
 
     private AuthenticationManager authenticationManager;
 
-    @GetMapping()
+    @GetMapping("/all")
     public ResponseEntity<List<AppUserDto>> getAllUsers() {
         List<AppUserDto> appUserDtoList = appUserServices.findAllUsers();
         return new ResponseEntity<>(appUserDtoList, HttpStatus.OK);
     }
 
-    @GetMapping("/{userId}")
-    public ResponseEntity<AppUserDto> getUserById(@PathVariable("userId") Long id) {
+    @GetMapping("/find/{id}")
+    public ResponseEntity<AppUserDto> getUserById(@PathVariable("id") Long id) {
         AppUserDto appUserDto = appUserServices.getUserById(id);
         return new ResponseEntity<>(appUserDto, HttpStatus.OK);
     }
 
-    @PostMapping("")
+    @PostMapping("/create")
+    @Valid
     public ResponseEntity<AppUserDto> createNewUser(@RequestParam("firstName") String firstName,
                                                     @RequestParam("lastName") String lastName,
                                                     @RequestParam("email") String email,
                                                     @RequestParam("phone") String phone,
                                                     @RequestParam("password") String password,
-                                                    @RequestParam("roles") String roles) throws EmailExistException {
-        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName,lastName,email,phone,password, RolesName.valueOf(roles));
+                                                    @RequestParam("role") String role) throws EmailExistException {
+        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName, lastName, email, phone, password, RoleName.valueOf(role));
         return new ResponseEntity<>(newAppUserDto, HttpStatus.CREATED);
     }
 
@@ -56,15 +56,20 @@ public class AppUserController {
         return new ResponseEntity<>(loginUser, HttpStatus.OK);
     }
 
-    @PutMapping("/{userId}")
-    public ResponseEntity<AppUserDto> updateUser(@PathVariable("userId") Long id, @RequestBody @Valid AppUserDto
-            appUserDto) {
-        AppUserDto newAppUserDto = appUserServices.updateUser(appUserDto);
+    @PutMapping("/update")
+    @Valid
+    public ResponseEntity<AppUserDto> updateUser(@RequestParam("firstName") String firstName,
+                                                 @RequestParam("lastName") String lastName,
+                                                 @RequestParam("email") String newEmail,
+                                                 @RequestParam("currentEmail") String currentEmail,
+                                                 @RequestParam("phone") String phone,
+                                                 @RequestParam("password") String password) throws EmailExistException {
+        AppUserDto newAppUserDto = appUserServices.updateUser(firstName, lastName, phone, password, newEmail, currentEmail);
         return new ResponseEntity<>(newAppUserDto, HttpStatus.OK);
     }
 
-    @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long id) {
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteUser(@PathVariable("id") Long id) {
         appUserServices.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }

@@ -3,7 +3,7 @@ package ro.sda.finalproject.backend.dto;
 import lombok.*;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
-import ro.sda.finalproject.backend.entity.Roles;
+import ro.sda.finalproject.backend.entity.AppRole;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -31,13 +31,7 @@ public class AppUserDto {
     @Pattern(message = "Phone number is not valid" , regexp = "[\\d]{10}")
     private String phone;
 
-    private Set<Roles> roles;
+    private Set<AppRole> role;
 
-    public void AppUserDto(String firstName, String lastName, String email, String password, String phone) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-    }
+
 }

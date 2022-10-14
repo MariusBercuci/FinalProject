@@ -9,7 +9,7 @@ public class ProductsMapper implements Mapper<Products, ProductsDto> {
     @Override
     public ProductsDto convertToDto(Products entity) {
         ProductsDto productsDto = new ProductsDto();
-        productsDto.setProductId(entity.getProductId());
+        productsDto.setProductId(entity.getId());
         productsDto.setProductName(entity.getProductName());
         productsDto.setProductPrice(entity.getProductPrice());
         productsDto.setProductDetails(entity.getProductDetails());
@@ -22,7 +22,7 @@ public class ProductsMapper implements Mapper<Products, ProductsDto> {
     @Override
     public Products convertToEntity(ProductsDto dto) {
         Products products = new Products();
-        products.setProductId(dto.getProductId());
+        products.setId(dto.getProductId());
         products.setProductName(dto.getProductName());
         products.setProductPrice(dto.getProductPrice());
         products.setProductDetails(dto.getProductDetails());

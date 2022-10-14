@@ -1,6 +1,7 @@
 package ro.sda.finalproject.backend.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,15 +13,15 @@ import ro.sda.finalproject.backend.services.ProductsServices;
 
 import java.io.IOException;
 import java.util.List;
-;
 
 
 @RestController
 @RequestMapping(path = "/api/products")
+@AllArgsConstructor
 public class ProductsController {
 
-    @Autowired
-    private ProductsServices productsServices;
+
+    private final ProductsServices productsServices;
 
 
     @GetMapping("")
@@ -60,7 +61,7 @@ public class ProductsController {
     @PutMapping("/{productId}")
     public ResponseEntity<ProductsDto> updateProduct(@PathVariable("productId") Long productId, MultipartFile file) {
         ProductsDto searchedProduct = productsServices.getProductsById(productId);
-        ProductImage images = null;
+        ProductImage images;
         try {
             images = uploadImage(file);
         } catch (IOException e) {
@@ -80,12 +81,11 @@ public class ProductsController {
     }
 
     private ProductImage uploadImage(MultipartFile file) throws IOException {
-        ProductImage productImage = ProductImage.builder()
+
+        return ProductImage.builder()
                 .imageName(file.getOriginalFilename())
                 .imageType(file.getContentType())
                 .picByte(file.getBytes())
                 .build();
-
-        return productImage;
     }
 }

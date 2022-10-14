@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>ro.sda.finalProject</groupId>
-    <artifactId>backend</artifactId>
+    <artifactId>phoneShop</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>backend</name>
-    <description>backend</description>
+    <name>phoneShop</name>
+    <description>PhoneShop</description>
     <properties>
         <java.version>11</java.version>
     </properties>

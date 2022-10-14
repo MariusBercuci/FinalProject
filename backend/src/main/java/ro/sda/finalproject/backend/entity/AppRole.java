@@ -3,6 +3,7 @@ package ro.sda.finalproject.backend.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import ro.sda.finalproject.backend.entity.enums.RoleName;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -14,7 +15,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Table(name = "roles")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Roles implements Serializable {
+public class AppRole implements Serializable {
     @Id
     @Column(name = "role_id", nullable = false, updatable = false)
     @GeneratedValue(strategy = IDENTITY)
@@ -22,6 +23,6 @@ public class Roles implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private RolesName roles = RolesName.ROLE_USER;
+    private RoleName role = RoleName.ROLE_USER;
 
 }

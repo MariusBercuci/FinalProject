@@ -2,7 +2,6 @@ package ro.sda.finalproject.backend.services;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 import ro.sda.finalproject.backend.dto.ProductsDto;
 import ro.sda.finalproject.backend.entity.Products;
 import ro.sda.finalproject.backend.exception.IdExistException;
@@ -33,10 +32,10 @@ public class ProductsServices {
 
     public ProductsDto createNewProducts(ProductsDto productsDto) {
         Products newProducts = productsMapper.convertToEntity(productsDto);
-        if (newProducts.getProductId() != null) {
-            Optional<Products> optionalProducts = productsRepository.findById(newProducts.getProductId());
+        if (newProducts.getId() != null) {
+            Optional<Products> optionalProducts = productsRepository.findById(newProducts.getId());
             if (optionalProducts.isPresent()) {
-                throw new IdExistException("The id" + newProducts.getProductId() + "is already in use");
+                throw new IdExistException("The id" + newProducts.getId() + "is already in use");
             }
         }
         productsRepository.save(newProducts);
@@ -44,9 +43,9 @@ public class ProductsServices {
         return productsMapper.convertToDto(newProducts);
     }
 
-    public ProductsDto updateProducts(Long id, ProductsDto productsDto) {
+    public ProductsDto updateProducts(Long productId,ProductsDto productsDto) {
         Products currentProducts = productsMapper.convertToEntity(productsDto);
-        currentProducts.setProductId(productsDto.getProductId());
+        currentProducts.setId(productsDto.getProductId());
         currentProducts.setProductName(productsDto.getProductName());
         currentProducts.setProductPrice(productsDto.getProductPrice());
         currentProducts.setProductDetails(productsDto.getProductDetails());

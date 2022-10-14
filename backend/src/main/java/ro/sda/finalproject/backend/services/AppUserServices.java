@@ -10,13 +10,13 @@ import org.springframework.stereotype.Service;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.entity.AppUser;
 import ro.sda.finalproject.backend.entity.AppUserDetails;
-import ro.sda.finalproject.backend.entity.Roles;
-import ro.sda.finalproject.backend.entity.RolesName;
+import ro.sda.finalproject.backend.entity.AppRole;
+import ro.sda.finalproject.backend.entity.enums.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.exception.UserNotFoundException;
 import ro.sda.finalproject.backend.mapper.AppUserMapper;
 import ro.sda.finalproject.backend.repository.AppUserRepository;
-import ro.sda.finalproject.backend.repository.RolesRepository;
+import ro.sda.finalproject.backend.repository.RoleRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -24,7 +24,6 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-;
 import static org.apache.commons.lang3.StringUtils.EMPTY;
 import static ro.sda.finalproject.backend.constants.UserImplConstant.EMAIL_ALREADY_EXISTS;
 import static ro.sda.finalproject.backend.constants.UserImplConstant.NO_USER_FOUND_BY_EMAIL;
@@ -34,11 +33,12 @@ import static ro.sda.finalproject.backend.constants.UserImplConstant.NO_USER_FOU
 public class AppUserServices implements UserDetailsService {
 
 
-    private  AppUserRepository appUserRepository;
+    private AppUserRepository appUserRepository;
+
     private AppUserMapper appUserMapper;
     private BCryptPasswordEncoder passwordEncoder;
 
-    private RolesRepository rolesRepository;
+    private RoleRepository roleRepository;
 
     public List<AppUserDto> findAllUsers() {
         return appUserRepository.findAll().stream().map(appUserMapper::convertToDto).collect(Collectors.toList());
@@ -49,16 +49,16 @@ public class AppUserServices implements UserDetailsService {
         AppUser appUser = appUserRepository.findById(id).orElseThrow(() -> new UserNotFoundException("No user by id " + id + " not found."));
         return appUserMapper.convertToDto(appUser);
     }
-    public AppUserDto updateUser(AppUserDto appUserDto) {
-        AppUser currentAppUser = appUserMapper.convertToEntity(appUserDto);
 
-        currentAppUser.setEmail(appUserDto.getEmail());
-        currentAppUser.setLastName(appUserDto.getLastName());
-        currentAppUser.setPhone(appUserDto.getPhone());
-        currentAppUser.setFirstName(appUserDto.getFirstName());
-        currentAppUser.setPassword(passwordEncoder.encode(appUserDto.getPassword()));
-        appUserRepository.save(currentAppUser);
-        return appUserMapper.convertToDto(currentAppUser);
+    public AppUserDto updateUser(String firstName, String lastName, String phone, String password, String newEmail, String currentEmail){
+        AppUser currentUser = validateNewUserEmail(currentEmail,newEmail);
+        currentUser.setEmail(newEmail);
+        currentUser.setPhone(phone);
+        currentUser.setFirstName(firstName);
+        currentUser.setLastName(lastName);
+        currentUser.setPassword(passwordEncoder.encode(password));
+        appUserRepository.save(currentUser);
+        return appUserMapper.convertToDto(currentUser);
     }
 
     public void deleteUser(Long id) {
@@ -76,29 +76,32 @@ public class AppUserServices implements UserDetailsService {
             return new AppUserDetails(appUser);
         }
     }
-    public AppUserDetails getUserDetails(String email) {
-        AppUser loginUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
-        return new AppUserDetails(loginUser);
-    }
+
+//    public AppUserDetails getUserDetails(String email) {
+//        AppUser loginUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
+//        return new AppUserDetails(loginUser);
+//    }
+
     public AppUserDto findUserByEmail(String email) {
         AppUser appUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
         return appUserMapper.convertToDto(appUser);
-}
+    }
 
-    public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RolesName roles) {
-        validateNewUserEmail(EMPTY,email);
+    public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles) {
+        validateNewUserEmail(EMPTY, email);
         AppUser appUser = new AppUser();
-        Roles userRoles = rolesRepository.findByRole(roles);
+        AppRole userAppRole = roleRepository.findByRole(roles);
 
         appUser.setEmail(email);
         appUser.setFirstName(firstName);
         appUser.setLastName(lastName);
         appUser.setPhone(phone);
         appUser.setPassword(passwordEncoder.encode(password));
-        appUser.setRoles(Set.of(userRoles));
+        appUser.setRoles(Set.of(userAppRole));
         appUserRepository.save(appUser);
         return appUserMapper.convertToDto(appUser);
     }
+
     private AppUser validateNewUserEmail(String currentEmail, String newEmail) throws UserNotFoundException, EmailExistException {
 
         Optional<AppUser> userWithNewEmail = appUserRepository.findUserByEmail(newEmail);
