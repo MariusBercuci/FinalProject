@@ -1,11 +1,15 @@
 package ro.sda.finalproject.backend.controller;
 
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.AppUserDto;
+import ro.sda.finalproject.backend.dto.LoginDto;
+import ro.sda.finalproject.backend.entity.Roles;
+import ro.sda.finalproject.backend.entity.RolesName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.services.AppUserServices;
 
@@ -18,8 +22,9 @@ import java.util.List;
 @RequestMapping(path = "/api/users")
 public class AppUserController {
 
-    @Autowired
     private final AppUserServices appUserServices;
+
+    private AuthenticationManager authenticationManager;
 
     @GetMapping()
     public ResponseEntity<List<AppUserDto>> getAllUsers() {
@@ -34,20 +39,38 @@ public class AppUserController {
     }
 
     @PostMapping("")
-    public ResponseEntity<AppUserDto> createNewUser(@RequestBody @Valid AppUserDto appUserDto) throws EmailExistException {
-        AppUserDto newAppUserDto = appUserServices.createNewUser(appUserDto);
-        return new ResponseEntity<>(newAppUserDto,HttpStatus.CREATED);
+    public ResponseEntity<AppUserDto> createNewUser(@RequestParam("firstName") String firstName,
+                                                    @RequestParam("lastName") String lastName,
+                                                    @RequestParam("email") String email,
+                                                    @RequestParam("phone") String phone,
+                                                    @RequestParam("password") String password,
+                                                    @RequestParam("roles") String roles) throws EmailExistException {
+        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName,lastName,email,phone,password, RolesName.valueOf(roles));
+        return new ResponseEntity<>(newAppUserDto, HttpStatus.CREATED);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<AppUserDto> loginUser(@RequestBody LoginDto loginDto) {
+        authenticate(loginDto.getEmail(), loginDto.getPassword());
+        AppUserDto loginUser = appUserServices.findUserByEmail(loginDto.getEmail());
+        return new ResponseEntity<>(loginUser, HttpStatus.OK);
     }
 
     @PutMapping("/{userId}")
-    public ResponseEntity<AppUserDto> updateUser(@PathVariable("userId")Long id, @RequestBody @Valid AppUserDto appUserDto) {
+    public ResponseEntity<AppUserDto> updateUser(@PathVariable("userId") Long id, @RequestBody @Valid AppUserDto
+            appUserDto) {
         AppUserDto newAppUserDto = appUserServices.updateUser(appUserDto);
         return new ResponseEntity<>(newAppUserDto, HttpStatus.OK);
     }
 
     @DeleteMapping("/{userId}")
-    public ResponseEntity<?> deleteUser(@PathVariable("userId")Long id){
+    public ResponseEntity<?> deleteUser(@PathVariable("userId") Long id) {
         appUserServices.deleteUser(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    private void authenticate(String username, String password) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(username, password);
+        authenticationManager.authenticate(authToken);
     }
 }

@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -12,7 +13,8 @@ import static javax.persistence.GenerationType.IDENTITY;
 @Data
 @Table(name = "roles")
 @NoArgsConstructor
-public class Roles {
+@AllArgsConstructor
+public class Roles implements Serializable {
     @Id
     @Column(name = "role_id", nullable = false, updatable = false)
     @GeneratedValue(strategy = IDENTITY)
@@ -20,7 +22,6 @@ public class Roles {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private RolesName role = RolesName.ROLE_USER;
-
+    private RolesName roles = RolesName.ROLE_USER;
 
 }

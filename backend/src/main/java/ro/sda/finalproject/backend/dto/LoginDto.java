@@ -12,7 +12,6 @@ import org.springframework.validation.annotation.Validated;
 public class LoginDto {
 
     private String email;
-
     private String password;
 
 }
