@@ -1,4 +1,4 @@
-package ro.sda.finalproject.backend.entity.enums;
+package ro.sda.finalproject.backend.entity;
 
 public enum RoleName {
 

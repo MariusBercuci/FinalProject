@@ -3,7 +3,6 @@ package ro.sda.finalproject.backend.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import ro.sda.finalproject.backend.entity.enums.RoleName;
 
 import javax.persistence.*;
 import java.io.Serializable;

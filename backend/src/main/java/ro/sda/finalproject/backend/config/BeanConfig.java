@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.DefaultAuthenticationEventPublisher;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import ro.sda.finalproject.backend.entity.AppRole;
-import ro.sda.finalproject.backend.entity.enums.RoleName;
+import ro.sda.finalproject.backend.entity.RoleName;
 import ro.sda.finalproject.backend.mapper.ProductsMapper;
 import ro.sda.finalproject.backend.repository.RoleRepository;
 import ro.sda.finalproject.backend.services.AppUserServices;
