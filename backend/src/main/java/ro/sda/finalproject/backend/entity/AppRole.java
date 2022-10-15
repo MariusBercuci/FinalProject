@@ -11,7 +11,7 @@ import static javax.persistence.GenerationType.IDENTITY;
 
 @Entity
 @Data
-@Table(name = "roles")
+@Table(name = "role")
 @NoArgsConstructor
 @AllArgsConstructor
 public class AppRole implements Serializable {
@@ -22,6 +22,6 @@ public class AppRole implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private RoleName role = RoleName.ROLE_USER;
+    private RoleName role;
 
 }

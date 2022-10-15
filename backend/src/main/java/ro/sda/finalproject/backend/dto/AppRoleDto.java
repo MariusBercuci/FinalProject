@@ -10,7 +10,7 @@ import ro.sda.finalproject.backend.entity.RoleName;
 @Validated
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoleDto {
+public class AppRoleDto {
 
     private Long id;
     private RoleName role;

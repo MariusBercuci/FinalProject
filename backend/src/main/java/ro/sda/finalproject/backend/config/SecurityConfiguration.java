@@ -2,6 +2,7 @@ package ro.sda.finalproject.backend.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -26,7 +27,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfiguration {
-    public SecurityConfiguration(AppUserServices appUserServices, PasswordEncoder passwordEncoder, UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public SecurityConfiguration(AppUserServices appUserServices, PasswordEncoder passwordEncoder, @Qualifier("appUserDetailsService") UserDetailsService userDetailsService, BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.appUserServices = appUserServices;
         this.passwordEncoder = passwordEncoder;
         this.userDetailsService = userDetailsService;

@@ -8,6 +8,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.dto.LoginDto;
+import ro.sda.finalproject.backend.entity.AppRole;
+import ro.sda.finalproject.backend.entity.AppUser;
+import ro.sda.finalproject.backend.entity.AppUserDetails;
 import ro.sda.finalproject.backend.entity.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.services.AppUserServices;
@@ -15,6 +18,7 @@ import ro.sda.finalproject.backend.services.AppUserServices;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @AllArgsConstructor
@@ -22,7 +26,6 @@ import java.util.List;
 public class AppUserController {
 
     private AppUserServices appUserServices;
-
     private AuthenticationManager authenticationManager;
 
     @GetMapping("/all")
@@ -44,8 +47,10 @@ public class AppUserController {
                                                     @RequestParam("email") String email,
                                                     @RequestParam("phone") String phone,
                                                     @RequestParam("password") String password,
+                                                    @RequestParam("isEnable") String isEnable,
+                                                    @RequestParam("isNotLocked") String isNotLocked,
                                                     @RequestParam("role") String role) throws EmailExistException {
-        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName, lastName, email, phone, password, RoleName.valueOf(role));
+        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName, lastName, email, phone, password,RoleName.valueOf(role),Boolean.parseBoolean(isNotLocked), Boolean.parseBoolean(isEnable));
         return new ResponseEntity<>(newAppUserDto, HttpStatus.CREATED);
     }
 

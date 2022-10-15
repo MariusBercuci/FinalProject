@@ -10,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Data
-@Table(schema = "users")
+@Table(schema = "user")
 @NoArgsConstructor
 public class AppUser {
     @Id
@@ -27,9 +27,12 @@ public class AppUser {
     @Column(nullable = false)
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(
-            name = "user_roles",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<AppRole> roles = new HashSet<>();
+            name = "user_role",
+            joinColumns = @JoinColumn(name = "user_fk"),
+            inverseJoinColumns = @JoinColumn(name = "role_fk"))
+    private Set<AppRole> role;
+    private Boolean isNotLocked = true;
+
+    private Boolean isEnabled = true;
 
 }

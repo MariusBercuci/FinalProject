@@ -2,6 +2,7 @@ package ro.sda.finalproject.backend.services;
 
 import org.apache.commons.lang3.StringUtils;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -30,6 +31,7 @@ import static ro.sda.finalproject.backend.constants.UserImplConstant.NO_USER_FOU
 
 @Service
 @AllArgsConstructor
+@Qualifier("appUserDetailsService")
 public class AppUserServices implements UserDetailsService {
 
 
@@ -77,17 +79,17 @@ public class AppUserServices implements UserDetailsService {
         }
     }
 
-//    public AppUserDetails getUserDetails(String email) {
-//        AppUser loginUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
-//        return new AppUserDetails(loginUser);
-//    }
+    public AppUserDetails getUserDetails(String email) {
+        AppUser loginUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
+        return new AppUserDetails(loginUser);
+    }
 
     public AppUserDto findUserByEmail(String email) {
         AppUser appUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
         return appUserMapper.convertToDto(appUser);
     }
 
-    public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles) {
+    public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles,boolean isNotLocked,boolean isEnable) {
         validateNewUserEmail(EMPTY, email);
         AppUser appUser = new AppUser();
         AppRole userAppRole = roleRepository.findByRole(roles);
@@ -97,7 +99,9 @@ public class AppUserServices implements UserDetailsService {
         appUser.setLastName(lastName);
         appUser.setPhone(phone);
         appUser.setPassword(passwordEncoder.encode(password));
-        appUser.setRoles(Set.of(userAppRole));
+        appUser.setRole(Set.of(userAppRole));
+        appUser.setIsEnabled(isEnable);
+        appUser.setIsNotLocked(isNotLocked);
         appUserRepository.save(appUser);
         return appUserMapper.convertToDto(appUser);
     }

@@ -1,9 +1,11 @@
 package ro.sda.finalproject.backend.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -15,12 +17,13 @@ public class AppUserDetails implements UserDetails {
 
     private AppUser appUser;
 
-    public AppUserDetails(AppUser appUser){
-    this.appUser = appUser;
+    public AppUserDetails(AppUser appUser) {
+        this.appUser = appUser;
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Set<AppRole> roles = appUser.getRoles();
+        Set<AppRole> roles = appUser.getRole();
         List<SimpleGrantedAuthority> authorities = new ArrayList<>();
         for (AppRole role : roles) {
             authorities.add(new SimpleGrantedAuthority(role.getRole().name()));
@@ -30,31 +33,31 @@ public class AppUserDetails implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return this.appUser.getPassword();
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return this.appUser.getEmail();
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return this.appUser.getIsNotLocked();
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return this.appUser.getIsEnabled();
     }
 }
