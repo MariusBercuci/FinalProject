@@ -9,6 +9,7 @@ import { TagsComponent } from './components/partial/tags/tags.component';
 import { ProductPageComponent } from './components/pages/product-page/product-page.component';
 import { CartPageComponent } from './components/pages/cart-page/cart-page.component';
 import { TitleComponent } from './components/partial/title/title.component';
+import { NotFoundComponent } from './components/partial/not-found/not-found.component';
 
 
 const routes: Routes = [
@@ -29,6 +30,7 @@ const routes: Routes = [
     ProductPageComponent,
     CartPageComponent,
     TitleComponent,
+    NotFoundComponent,
 
 
   ],
