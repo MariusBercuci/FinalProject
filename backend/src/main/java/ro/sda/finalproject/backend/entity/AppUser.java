@@ -30,7 +30,7 @@ public class AppUser {
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_fk"),
             inverseJoinColumns = @JoinColumn(name = "role_fk"))
-    private Set<AppRole> role;
+    private Set<AppRole> role = new HashSet<>();
     private Boolean isNotLocked = true;
 
     private Boolean isEnabled = true;

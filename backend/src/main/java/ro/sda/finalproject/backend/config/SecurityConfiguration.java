@@ -17,6 +17,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import ro.sda.finalproject.backend.services.AppUserServices;
 
 
@@ -79,7 +80,7 @@ public class SecurityConfiguration {
                 .authorizeRequests().antMatchers("/api/user/login/**", "/api/user/create").permitAll() // We are telling the app the list of URLs that we are allowing the user to access without being authenticated
                 .anyRequest().authenticated()
                 .and()
-                .formLogin();
+                .exceptionHandling().accessDeniedPage("/403");
 
         return http.build();
     }

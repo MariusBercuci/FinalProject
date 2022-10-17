@@ -8,9 +8,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.dto.LoginDto;
-import ro.sda.finalproject.backend.entity.AppRole;
-import ro.sda.finalproject.backend.entity.AppUser;
-import ro.sda.finalproject.backend.entity.AppUserDetails;
 import ro.sda.finalproject.backend.entity.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.services.AppUserServices;
@@ -18,7 +15,6 @@ import ro.sda.finalproject.backend.services.AppUserServices;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @AllArgsConstructor
