@@ -1,6 +1,7 @@
 package ro.sda.finalproject.backend.config;
 
 import lombok.AllArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -9,12 +10,19 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
+import ro.sda.finalproject.backend.dto.AppUserDto;
+import ro.sda.finalproject.backend.entity.AppRole;
+import ro.sda.finalproject.backend.entity.RoleName;
+import ro.sda.finalproject.backend.mapper.AppUserMapper;
 import ro.sda.finalproject.backend.mapper.ProductsMapper;
-
+import ro.sda.finalproject.backend.repository.AppUserRepository;
+import ro.sda.finalproject.backend.repository.RoleRepository;
+import ro.sda.finalproject.backend.services.AppUserServices;
 
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 
 @Configuration
@@ -36,20 +44,25 @@ public class BeanConfig {
         return new DefaultAuthenticationEventPublisher(applicationEventPublisher);
     }
 
-//    @Bean
-//    CommandLineRunner run(AppUserServices appUserServices, RoleRepository roleRepository, AppUserRepository appUserRepository, AppUserMapper appUserMapper) {
+    @Bean
+    CommandLineRunner run(AppUserServices appUserServices, RoleRepository roleRepository, AppUserRepository appUserRepository, AppUserMapper appUserMapper) {
+
+        return args -> {
+
+            AppRole USER = new AppRole(null, RoleName.ROLE_USER);
+            AppRole ADMIN = new AppRole(null, RoleName.ROLE_ADMIN);
+            AppUserDto newAppUser;
 //
-//        return args -> {
-//
-//            AppRole USER = new AppRole(null, RoleName.ROLE_USER);
-//            AppRole ADMIN = new AppRole(null, RoleName.ROLE_ADMIN);
-//            AppUserDto newAppUser;
-//
-//            roleRepository.saveAll(List.of(ADMIN, USER));
-//            newAppUser = appUserServices.createNewUser("Croitoru", "Mirel", "croitoru_mirel@yahoo.com", "0722469947", "mirel123", RoleName.ROLE_ADMIN, true , true);
+            roleRepository.saveAll(List.of(ADMIN, USER));
+        };
+    }
+////            newAppUser = appUserServices.createNewUser("Croitoru", "Mirel", "croitoru_mirel@yahoo.com", "0722469947", "mirel123", RoleName.ROLE_ADMIN, true , true);
+////            newAppUser = appUserServices.createNewUser("Chelu", "Adrian", "cheluadrian@yahoo.com", "0721558519", "mirel1234", RoleName.ROLE_USER, true , true);
+//            newAppUser = appUserServices.createNewUser("Chelu", "asdasd", "asdasd@yahoo.com", "0721558518", "mirel1234", RoleName.ROLE_USER, true , true);
 //            appUserRepository.save(appUserMapper.convertToEntity(newAppUser));
 //        };
 //    }
+
 
     @Bean
     public CorsFilter corsFilter() {

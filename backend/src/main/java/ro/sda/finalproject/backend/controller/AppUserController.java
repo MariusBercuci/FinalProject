@@ -8,6 +8,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.dto.LoginDto;
+import ro.sda.finalproject.backend.entity.AppUserDetails;
 import ro.sda.finalproject.backend.entity.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.services.AppUserServices;
@@ -43,16 +44,20 @@ public class AppUserController {
                                                     @RequestParam("email") String email,
                                                     @RequestParam("phone") String phone,
                                                     @RequestParam("password") String password,
-                                                    @RequestParam("isEnable") String isEnable,
-                                                    @RequestParam("isNotLocked") String isNotLocked,
                                                     @RequestParam("role") String role) throws EmailExistException {
-        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName, lastName, email, phone, password,RoleName.valueOf(role),Boolean.parseBoolean(isNotLocked), Boolean.parseBoolean(isEnable));
+        AppUserDto newAppUserDto = appUserServices.createNewUser(firstName, lastName, email, phone, password,RoleName.valueOf(role));
         return new ResponseEntity<>(newAppUserDto, HttpStatus.CREATED);
+    }
+    @PostMapping("/register")
+    public ResponseEntity<AppUserDto> registerNewUser(@RequestBody @Valid AppUserDto appUserDto){
+        AppUserDto newAppUserDto = appUserServices.registerNewUser(appUserDto);
+        return new ResponseEntity<>(newAppUserDto,HttpStatus.CREATED);
     }
 
     @PostMapping("/login")
     public ResponseEntity<AppUserDto> loginUser(@RequestBody LoginDto loginDto) {
         authenticate(loginDto.getEmail(), loginDto.getPassword());
+        appUserServices.getUserDetails(loginDto.getEmail());
         AppUserDto loginUser = appUserServices.findUserByEmail(loginDto.getEmail());
         return new ResponseEntity<>(loginUser, HttpStatus.OK);
     }

@@ -32,9 +32,7 @@ public class AppUserDto {
     private String phone;
 
     private Set<AppRole> role;
-    private Boolean isNotLocked = true;
 
-    private Boolean isEnabled = true;
 
 
 }

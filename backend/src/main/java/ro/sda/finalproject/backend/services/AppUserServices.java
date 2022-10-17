@@ -89,7 +89,7 @@ public class AppUserServices implements UserDetailsService {
         return appUserMapper.convertToDto(appUser);
     }
 
-    public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles,boolean isNotLocked,boolean isEnable) {
+    public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles) {
         validateNewUserEmail(EMPTY, email);
         AppUser appUser = new AppUser();
         AppRole userAppRole = roleRepository.findByRole(roles);
@@ -100,8 +100,6 @@ public class AppUserServices implements UserDetailsService {
         appUser.setPhone(phone);
         appUser.setPassword(passwordEncoder.encode(password));
         appUser.setRole(Set.of(userAppRole));
-        appUser.setIsEnabled(isEnable);
-        appUser.setIsNotLocked(isNotLocked);
         appUserRepository.save(appUser);
         return appUserMapper.convertToDto(appUser);
     }
@@ -126,5 +124,21 @@ public class AppUserServices implements UserDetailsService {
             }
             return null;
         }
+    }
+
+    public AppUserDto registerNewUser(AppUserDto appUserDto) {
+        validateNewUserEmail(EMPTY, appUserDto.getEmail());
+        AppUser appUser = new AppUser();
+        AppRole userAppRole = roleRepository.findByRole(RoleName.ROLE_USER);
+
+        appUser.setEmail(appUserDto.getEmail());
+        appUser.setFirstName(appUserDto.getFirstName());
+        appUser.setLastName(appUserDto.getLastName());
+        appUser.setPhone(appUserDto.getPhone());
+        appUser.setPassword(passwordEncoder.encode(appUserDto.getPassword()));
+        appUser.setRole(Set.of(userAppRole));
+        appUserRepository.save(appUser);
+        return appUserMapper.convertToDto(appUser);
+
     }
 }
