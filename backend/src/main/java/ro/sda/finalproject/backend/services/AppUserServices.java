@@ -92,7 +92,7 @@ public class AppUserServices implements UserDetailsService {
     public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles) {
         validateNewUserEmail(EMPTY, email);
         AppUser appUser = new AppUser();
-        AppRole userAppRole = roleRepository.findByRole(roles);
+        AppRole userAppRole = roleRepository.findAppRoleByRole(roles);
 
         appUser.setEmail(email);
         appUser.setFirstName(firstName);
@@ -129,8 +129,8 @@ public class AppUserServices implements UserDetailsService {
     public AppUserDto registerNewUser(AppUserDto appUserDto) {
         validateNewUserEmail(EMPTY, appUserDto.getEmail());
         AppUser appUser = new AppUser();
-        AppRole userAppRole = roleRepository.findByRole(RoleName.ROLE_USER);
-
+        AppRole userAppRole = roleRepository.findAppRoleByRole(appUserDto.getRole().stream().findFirst().get().getRole());
+        //"role": [{"role" : "ROLE_ADMIN"}]
         appUser.setEmail(appUserDto.getEmail());
         appUser.setFirstName(appUserDto.getFirstName());
         appUser.setLastName(appUserDto.getLastName());

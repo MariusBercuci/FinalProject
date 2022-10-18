@@ -24,4 +24,5 @@ public class AppRole implements Serializable {
     @Enumerated(EnumType.STRING)
     private RoleName role = RoleName.ROLE_USER;
 
+
 }

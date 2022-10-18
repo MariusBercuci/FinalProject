@@ -53,7 +53,7 @@ public class BeanConfig {
             AppRole ADMIN = new AppRole(null, RoleName.ROLE_ADMIN);
             AppUserDto newAppUser;
 //
-            roleRepository.saveAll(List.of(ADMIN, USER));
+            roleRepository.saveAll(List.of(USER, ADMIN));
         };
     }
 ////            newAppUser = appUserServices.createNewUser("Croitoru", "Mirel", "croitoru_mirel@yahoo.com", "0722469947", "mirel123", RoleName.ROLE_ADMIN, true , true);
