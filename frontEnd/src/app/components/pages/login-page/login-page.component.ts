@@ -2,7 +2,7 @@ import { UserService } from 'src/app/service/user.service';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { User } from 'src/app/shared/models/User';
-import { Route, Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 
 
@@ -19,7 +19,7 @@ export class LoginPageComponent implements OnInit {
 
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
-    private route: Router,
+    private router: Router,
     private http:HttpClient) { }
 
   ngOnInit(): void {
@@ -37,7 +37,7 @@ export class LoginPageComponent implements OnInit {
     this.userService.login(this.loginForm.value).subscribe({
       next: (backendUser: User) =>{
         this.userService.saveUser(backendUser);
-        this.route.navigate(['/home']);
+        this.router.navigate(['/home']);
       },
       error: (error:HttpErrorResponse)=>{
         alert(error.message);

@@ -1,4 +1,4 @@
-import { HttpClient, HttpClientModule } from '@angular/common/http';
+ import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppComponent } from './app.component';
@@ -13,6 +13,7 @@ import { TitleComponent } from './components/partial/title/title.component';
 import { NotFoundComponent } from './components/partial/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
+ import {AppRoutingModule} from "./app-routing.module";
 
 
 const routes: Routes = [
@@ -41,6 +42,7 @@ const routes: Routes = [
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     RouterModule.forRoot(routes,{onSameUrlNavigation:'reload'}),
     ReactiveFormsModule,
     HttpClientModule
