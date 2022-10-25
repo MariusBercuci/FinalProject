@@ -21,6 +21,7 @@ public class Products {
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private ProductImage productImage;
+
     private Long productCode;
 
 }

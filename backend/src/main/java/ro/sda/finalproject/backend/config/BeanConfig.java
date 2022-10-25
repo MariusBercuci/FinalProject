@@ -54,14 +54,14 @@ public class BeanConfig {
             AppUserDto newAppUser;
 //
             roleRepository.saveAll(List.of(USER, ADMIN));
-        };
-    }
-////            newAppUser = appUserServices.createNewUser("Croitoru", "Mirel", "croitoru_mirel@yahoo.com", "0722469947", "mirel123", RoleName.ROLE_ADMIN, true , true);
+
+
+            newAppUser = appUserServices.createNewUser("Croitoru", "Mirel", "croitoru_mirel@yahoo.com", "0722469947", "mirel123",RoleName.ROLE_ADMIN);
 ////            newAppUser = appUserServices.createNewUser("Chelu", "Adrian", "cheluadrian@yahoo.com", "0721558519", "mirel1234", RoleName.ROLE_USER, true , true);
 //            newAppUser = appUserServices.createNewUser("Chelu", "asdasd", "asdasd@yahoo.com", "0721558518", "mirel1234", RoleName.ROLE_USER, true , true);
-//            appUserRepository.save(appUserMapper.convertToEntity(newAppUser));
-//        };
-//    }
+            appUserRepository.save(appUserMapper.convertToEntity(newAppUser));
+        };
+   }
 
 
     @Bean
