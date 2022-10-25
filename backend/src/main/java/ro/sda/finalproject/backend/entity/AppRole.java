@@ -2,6 +2,7 @@ package ro.sda.finalproject.backend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
@@ -22,7 +23,7 @@ public class AppRole implements Serializable {
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private RoleName role = RoleName.ROLE_USER;
+    private RoleName role;
 
 
 }

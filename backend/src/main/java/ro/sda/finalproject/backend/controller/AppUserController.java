@@ -48,6 +48,7 @@ public class AppUserController {
         AppUserDto newAppUserDto = appUserServices.createNewUser(firstName, lastName, email, phone, password,RoleName.valueOf(role));
         return new ResponseEntity<>(newAppUserDto, HttpStatus.CREATED);
     }
+
     @PostMapping("/register")
     public ResponseEntity<AppUserDto> registerNewUser(@RequestBody @Valid AppUserDto appUserDto){
         AppUserDto newAppUserDto = appUserServices.registerNewUser(appUserDto);
