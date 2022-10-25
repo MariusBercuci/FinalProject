@@ -13,7 +13,6 @@ import { TitleComponent } from './components/partial/title/title.component';
 import { NotFoundComponent } from './components/partial/not-found/not-found.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
-import { UserProfileComponent } from './components/user-profile/user-profile.component';
 
 
 const routes: Routes = [
@@ -37,7 +36,7 @@ const routes: Routes = [
     TitleComponent,
     NotFoundComponent,
     LoginPageComponent,
-    UserProfileComponent,
+
 
   ],
   imports: [
