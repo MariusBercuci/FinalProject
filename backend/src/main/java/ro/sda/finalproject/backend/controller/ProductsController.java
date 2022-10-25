@@ -24,19 +24,19 @@ public class ProductsController {
     private final ProductsServices productsServices;
 
 
-    @GetMapping("")
+    @GetMapping("/all")
     public ResponseEntity<List<ProductsDto>> getAllProducts() {
         List<ProductsDto> productsDtoList = productsServices.findAllProducts();
         return new ResponseEntity<>(productsDtoList, HttpStatus.OK);
     }
 
-    @GetMapping(value = "/{productId}")
-    public ResponseEntity<ProductsDto> getProductsById(@PathVariable("productId") Long id) {
+    @GetMapping(value = "/find/{id}")
+    public ResponseEntity<ProductsDto> getProductsById(@PathVariable("id") Long id) {
         ProductsDto productsDto = productsServices.getProductsById(id);
         return new ResponseEntity<>(productsDto, HttpStatus.OK);
     }
 
-    @PostMapping(value = "")
+    @PostMapping(value = "/create")
     public ResponseEntity<ProductsDto> createNewProducts(@RequestParam("imageFile") MultipartFile file,
                                                          @RequestParam("productName") String productName,
                                                          @RequestParam("productPrice") Double productPrice,
@@ -58,8 +58,8 @@ public class ProductsController {
         return new ResponseEntity<>(newProductsDto, HttpStatus.CREATED);
     }
 
-    @PutMapping("/{productId}")
-    public ResponseEntity<ProductsDto> updateProduct(@PathVariable("productId") Long productId, MultipartFile file) {
+    @PutMapping("/update/{id}")
+    public ResponseEntity<ProductsDto> updateProduct(@PathVariable("id") Long productId, MultipartFile file) {
         ProductsDto searchedProduct = productsServices.getProductsById(productId);
         ProductImage images;
         try {
@@ -74,8 +74,8 @@ public class ProductsController {
     }
 
 
-    @DeleteMapping("/{productId}")
-    public ResponseEntity<?> deleteProducts(@PathVariable("productId") Long productId) {
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity<?> deleteProducts(@PathVariable("id") Long productId) {
         productsServices.deleteProducts(productId);
         return new ResponseEntity<>(HttpStatus.OK);
     }

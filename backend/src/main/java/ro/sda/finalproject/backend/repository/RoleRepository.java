@@ -5,9 +5,13 @@ import org.springframework.stereotype.Repository;
 import ro.sda.finalproject.backend.entity.AppRole;
 import ro.sda.finalproject.backend.entity.RoleName;
 
+import javax.management.relation.Role;
+
 @Repository
 public interface RoleRepository extends JpaRepository<AppRole,Long> {
 
-    AppRole findByRole(RoleName roles);
+//    AppRole findByRole(RoleName roles);
+
+    public AppRole findAppRoleByRole(RoleName roles);
 
 }

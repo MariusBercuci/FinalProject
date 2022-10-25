@@ -24,6 +24,7 @@ public class AppUser {
     private String firstName;
     private String lastName;
     private String phone;
+
     @Column(nullable = false)
     @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(
