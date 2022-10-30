@@ -2,11 +2,11 @@ package ro.sda.finalproject.backend.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 import static javax.persistence.GenerationType.IDENTITY;
 
@@ -17,13 +17,12 @@ import static javax.persistence.GenerationType.IDENTITY;
 @AllArgsConstructor
 public class AppRole implements Serializable {
     @Id
-    @Column(name = "role_id", nullable = false, updatable = false)
+    @Column(name = "role_id")
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private RoleName role;
-
 
 }

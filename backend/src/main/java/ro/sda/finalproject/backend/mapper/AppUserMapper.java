@@ -16,6 +16,8 @@ public class AppUserMapper implements Mapper<AppUser, AppUserDto> {
         appUserDto.setLastName(entity.getLastName());
         appUserDto.setPhone(entity.getPhone());
         appUserDto.setPassword(entity.getPassword());
+        appUserDto.setRole(entity.getRole());
+
         return appUserDto;
     }
     @Override
@@ -27,6 +29,7 @@ public class AppUserMapper implements Mapper<AppUser, AppUserDto> {
         appUser.setFirstName(dto.getFirstName());
         appUser.setLastName(dto.getLastName());
         appUser.setPhone(dto.getPhone());
+        appUser.setRole(dto.getRole());
         return appUser;
     }
 }

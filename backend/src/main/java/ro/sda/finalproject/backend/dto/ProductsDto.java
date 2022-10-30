@@ -11,7 +11,7 @@ import ro.sda.finalproject.backend.entity.ProductImage;
 @AllArgsConstructor
 public class ProductsDto {
 
-    private Long productId;
+    private Long id;
     private String productName;
     private Double productPrice;
     private String productDetails;

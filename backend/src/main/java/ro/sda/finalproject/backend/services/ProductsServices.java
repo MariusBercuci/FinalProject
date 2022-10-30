@@ -17,8 +17,8 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class ProductsServices {
 
-    public ProductsRepository productsRepository;
-    public ProductsMapper productsMapper;
+    private ProductsRepository productsRepository;
+    private ProductsMapper productsMapper;
 
     public List<ProductsDto> findAllProducts() {
         return productsRepository.findAll().stream().map(productsMapper::convertToDto).collect(Collectors.toList());
@@ -45,7 +45,7 @@ public class ProductsServices {
 
     public ProductsDto updateProducts(Long productId,ProductsDto productsDto) {
         Products currentProducts = productsMapper.convertToEntity(productsDto);
-        currentProducts.setId(productsDto.getProductId());
+        currentProducts.setId(productsDto.getId());
         currentProducts.setProductName(productsDto.getProductName());
         currentProducts.setProductPrice(productsDto.getProductPrice());
         currentProducts.setProductDetails(productsDto.getProductDetails());

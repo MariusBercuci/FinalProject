@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,10 +13,9 @@ import java.util.Set;
 @Data
 @Table(name = "app_user")
 @NoArgsConstructor
-public class AppUser {
+public class AppUser implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "user_id", nullable = false, updatable = false )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String email;
     @Size(min = 6, message = "Length must be more than 6")
@@ -26,12 +26,15 @@ public class AppUser {
     private String phone;
 
     @Column(nullable = false)
-    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"))
+            joinColumns = @JoinColumn(name = "user_fk"),
+            inverseJoinColumns = @JoinColumn(name = "role_fk"))
     private Set<AppRole> role = new HashSet<>();
+    @OneToOne(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopping_cart_fk", referencedColumnName = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
 
 
 }

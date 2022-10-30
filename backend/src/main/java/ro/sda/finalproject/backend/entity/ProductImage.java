@@ -3,6 +3,7 @@ package ro.sda.finalproject.backend.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 
 @Entity
@@ -11,11 +12,11 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class ProductImage {
+public class ProductImage implements Serializable {
 @Id
-@GeneratedValue(strategy = GenerationType.AUTO)
-@Column(name = "image_id", nullable = false)
-    private Long imageId;
+@GeneratedValue(strategy = GenerationType.IDENTITY)
+@Column(name = "product_image_id")
+    private Long id;
     private String imageName;
     private String imageType;
     @Column(length = 50_000_000)
