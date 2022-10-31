@@ -16,10 +16,11 @@ export class LoginPageComponent implements OnInit {
 
   loginForm!:FormGroup;
   isSubmitted = false;
-
+  returnUrl = '';
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
-    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private router:Router,
     private http:HttpClient) { }
 
   ngOnInit(): void {
@@ -27,6 +28,9 @@ export class LoginPageComponent implements OnInit {
       email:['', [Validators.required,Validators.email]],
       password:['', Validators.required]
     });
+
+    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
+
   }
 
   get fc(){
@@ -37,7 +41,7 @@ export class LoginPageComponent implements OnInit {
     this.userService.login(this.loginForm.value).subscribe({
       next: (backendUser: User) =>{
         this.userService.saveUser(backendUser);
-        this.router.navigate(['/home']);
+        this.router.navigateByUrl(this.returnUrl);
       },
       error: (error:HttpErrorResponse)=>{
         alert(error.message);

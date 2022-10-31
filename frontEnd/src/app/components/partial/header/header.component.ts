@@ -1,3 +1,5 @@
+import { UserService } from './../../../service/user.service';
+import { User } from './../../../shared/models/User';
 import { Component, OnInit } from '@angular/core';
 import { CartService } from 'src/app/service/cart.service';
 
@@ -9,11 +11,16 @@ import { CartService } from 'src/app/service/cart.service';
 export class HeaderComponent implements OnInit {
 
   cartQuantity=0;
-
-  constructor(cartService:CartService) {
+  user!:User;
+  constructor(cartService:CartService,UserService:UserService) {
     cartService.getCartObservable().subscribe((newCart) => {
       this.cartQuantity = newCart.totalCount;
    })
+
+   UserService.userObservable.subscribe((newUser) => {
+     this.user = newUser;
+   })
+
   }
 
   ngOnInit(): void {
