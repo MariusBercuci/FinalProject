@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -15,5 +16,5 @@ public class CartItemDto {
 
     private Long id;
     private Integer quantity;
-    private Date date;
+    private LocalDateTime createTime;
 }

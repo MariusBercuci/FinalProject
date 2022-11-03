@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -16,8 +18,8 @@ import java.util.Set;
 public class ShoppingCartDto {
 
     private Long id;
-    private Date date;
-    private Double totalPrice;
+    private LocalDateTime createTime;
+    private BigDecimal totalPrice;
     private Set<CartItemDto> cartItem =new HashSet<>();
     private AppUserDto appUser;
 }

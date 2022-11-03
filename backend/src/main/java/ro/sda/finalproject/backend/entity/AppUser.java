@@ -36,5 +36,8 @@ public class AppUser implements Serializable {
     @JoinColumn(name = "shopping_cart_fk", referencedColumnName = "shopping_cart_id")
     private ShoppingCart shoppingCart;
 
-
+    @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "appUser")
+    //@JsonIgnore
+    //@JsonManagedReference
+    private Set<Products> products = new HashSet<>();
 }

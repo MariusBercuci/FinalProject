@@ -5,6 +5,9 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Data
@@ -17,7 +20,7 @@ public class Products implements Serializable {
     @Column(name = "products_id")
     private Long id;
     private String productName;
-    private Double productPrice;
+    private BigDecimal productPrice;
     private String productDetails;
 
     @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
@@ -25,8 +28,11 @@ public class Products implements Serializable {
     private ProductImage productImage;
 
     private Long productCode;
-    @ManyToOne(fetch = FetchType.LAZY,cascade = CascadeType.DETACH)
-    @JoinColumn(name = "cart_item_fk",referencedColumnName = "cart_item_id")
-    private CartItem cartItem;
 
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.REMOVE,mappedBy = "products")
+    private Set<CartItem> cartItems= new HashSet<>();
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_fk", nullable = false)
+    private AppUser appUser;
 }
