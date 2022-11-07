@@ -22,8 +22,8 @@ import java.util.List;
 @RequestMapping(path = "/api/users")
 public class AppUserController {
 
-    private AppUserServices appUserServices;
-    private AuthenticationManager authenticationManager;
+    private final AppUserServices appUserServices;
+    private final AuthenticationManager authenticationManager;
 
     @GetMapping("/all")
     public ResponseEntity<List<AppUserDto>> getAllUsers() {

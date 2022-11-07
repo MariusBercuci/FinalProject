@@ -1,11 +1,11 @@
 package ro.sda.finalproject.backend.dto;
 
 import lombok.*;
-import org.springframework.context.support.BeanDefinitionDsl;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import ro.sda.finalproject.backend.entity.AppRole;
-import ro.sda.finalproject.backend.entity.RoleName;
+import ro.sda.finalproject.backend.entity.Products;
+import ro.sda.finalproject.backend.entity.ShoppingCart;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
@@ -30,10 +30,12 @@ public class AppUserDto {
     private String firstName;
     @NotEmpty
     private String lastName;
+    @NotEmpty
     @Pattern(message = "Phone number is not valid" , regexp = "[\\d]{10}")
     private String phone;
     private Set<AppRole> role;
-
+    private ShoppingCart shoppingCart;
+    private Set<Products> products;
 
 
 

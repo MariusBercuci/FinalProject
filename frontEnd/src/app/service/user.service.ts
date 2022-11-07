@@ -20,13 +20,40 @@ export class UserService {
   private userSubject = 
   new BehaviorSubject<User>(this.getUserFromLocalStorage());
   public userObservable:Observable<User>;
+<<<<<<< HEAD
   toastrService: any;
   constructor(private http:HttpClient) {
+=======
+  constructor(private http:HttpClient, private toastrService:ToastrService) {
+>>>>>>> a8603942461afa4bfef9c98062a811482d99c885
     this.userObservable = this.userSubject.asObservable();
   }
 
   public get currentUser():User{
     return this.userSubject.value;
+<<<<<<< HEAD
+=======
+  }
+
+  login(userLogin:IUserLogin):Observable<User>{
+    return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(
+      tap({
+        next: (user) =>{
+          this.setUserToLocalStorage(user);
+          this.userSubject.next(user);
+          this.toastrService.success(
+            `Welcome to GSM Shop ${user.name}!` ,
+            'Login Successful'
+          )
+
+        },
+        error: (errorResponse) => {
+          this.toastrService.error(errorResponse.error, 'Login Failed');
+        }
+      })
+    )
+    return this.http.post<User>(`${this.apiServerURL}/users/login`, userLogin);
+>>>>>>> a8603942461afa4bfef9c98062a811482d99c885
   }
 
   login(userLogin:IUserLogin):Observable<User>{

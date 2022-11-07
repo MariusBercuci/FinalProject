@@ -14,8 +14,14 @@ import { NotFoundComponent } from './components/partial/not-found/not-found.comp
 import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
  import {AppRoutingModule} from "./app-routing.module";
+<<<<<<< HEAD
  
 
+=======
+ import { ToastrModule } from 'ngx-toastr';
+ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+ 
+>>>>>>> a8603942461afa4bfef9c98062a811482d99c885
 const routes: Routes = [
   {path:'', component:HomeComponent},
   {path:'search/:searchTerm', component:HomeComponent},
@@ -37,16 +43,25 @@ const routes: Routes = [
     TitleComponent,
     NotFoundComponent,
     LoginPageComponent,
-
+    
 
   ],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
     AppRoutingModule,
     //RouterModule.forRoot(routes,{onSameUrlNavigation:'reload'}),
     ReactiveFormsModule,
     HttpClientModule,
+<<<<<<< HEAD
     
+=======
+    ToastrModule.forRoot({
+      timeOut:4000,
+      positionClass:'toast-bottom-right',
+      newestOnTop:false
+    })
+>>>>>>> a8603942461afa4bfef9c98062a811482d99c885
   ],
   providers: [],
   bootstrap: [AppComponent]

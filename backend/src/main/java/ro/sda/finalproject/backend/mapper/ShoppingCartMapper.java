@@ -24,7 +24,7 @@ public class ShoppingCartMapper implements Mapper<ShoppingCart, ShoppingCartDto>
     public ShoppingCartDto convertToDto(ShoppingCart entity) {
         ShoppingCartDto shoppingCartDto = new ShoppingCartDto();
         shoppingCartDto.setId(entity.getId());
-        shoppingCartDto.setDate(entity.getDate());
+        shoppingCartDto.setCreateTime(entity.getCreateTime());
         shoppingCartDto.setTotalPrice(entity.getTotalPrice());
         if (entity.getAppUser() != null) {
             shoppingCartDto.setAppUser(appUserDto(entity.getAppUser()));
@@ -60,7 +60,7 @@ public class ShoppingCartMapper implements Mapper<ShoppingCart, ShoppingCartDto>
     public ShoppingCart convertToEntity(ShoppingCartDto dto) {
         ShoppingCart shoppingCart = new ShoppingCart();
         shoppingCart.setId(dto.getId());
-        shoppingCart.setDate(dto.getDate());
+        shoppingCart.setCreateTime(dto.getCreateTime());
         shoppingCart.setTotalPrice(dto.getTotalPrice());
         if (dto.getAppUser() != null) {
             shoppingCart.setAppUser(shoppingCartRepository.getReferenceById(dto.getId()).getAppUser());

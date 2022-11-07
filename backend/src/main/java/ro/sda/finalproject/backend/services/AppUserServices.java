@@ -137,6 +137,7 @@ public class AppUserServices implements UserDetailsService {
         appUser.setPhone(appUserDto.getPhone());
         appUser.setPassword(passwordEncoder.encode(appUserDto.getPassword()));
         appUser.setRole(Set.of(userAppRole));
+        appUser.setShoppingCart(appUserDto.getShoppingCart());
         appUserRepository.save(appUser);
         return appUserMapper.convertToDto(appUser);
 

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -22,8 +24,8 @@ public class ShoppingCart implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "shopping_cart_id")
     private Long id;
-    private Date date;
-    private Double totalPrice;
+    private LocalDateTime createTime;
+    private BigDecimal totalPrice;
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY,mappedBy = "shoppingCart")
     private Set<CartItem> cartItem = new HashSet<>();
     @OneToOne(cascade = CascadeType.DETACH,fetch = FetchType.EAGER,mappedBy = "shoppingCart")
