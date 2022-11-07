@@ -11,8 +11,8 @@ import { CartService } from 'src/app/service/cart.service';
 export class HeaderComponent implements OnInit {
 
   cartQuantity=0;
-
-  constructor(cartService:CartService) {
+  user!:User;
+  constructor(cartService:CartService,UserService:UserService) {
     cartService.getCartObservable().subscribe((newCart) => {
       this.cartQuantity = newCart.totalCount;
    })

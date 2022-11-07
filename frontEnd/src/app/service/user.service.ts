@@ -3,19 +3,24 @@ import { BehaviorSubject, Observable, tap } from 'rxjs';
 import { USER_LOGIN_URL } from '../shared/models/constants/urls';
 import { IUserLogin } from '../shared/models/interfaces/IUserLogin';
 import { User } from '../shared/models/User';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpErrorResponse } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+import { ToastrService } from 'ngx-toastr';
 
+const USER_KEY = 'User';
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
+  [x: string]: any;
 
   user!: User;
   private apiServerURL = environment.apiUrl;
 
-  private userSubject = new BehaviorSubject<User>(new User());
+  private userSubject = 
+  new BehaviorSubject<User>(this.getUserFromLocalStorage());
   public userObservable:Observable<User>;
+  toastrService: any;
   constructor(private http:HttpClient) {
     this.userObservable = this.userSubject.asObservable();
   }
@@ -25,29 +30,21 @@ export class UserService {
   }
 
   login(userLogin:IUserLogin):Observable<User>{
-    //return this.http.post<User>(`$(this.apiUrl}/USER_LOGIN_URL`, userLogin)
+    return this.http.post<User>(USER_LOGIN_URL, userLogin).pipe(
       tap({
         next: (user) =>{
           this.setUserToLocalStorage(user);
           this.userSubject.next(user);
-          this.toastrService.success(
-            `Welcome to GSM Shop ${user.name}!` ,
-            'Login Successful'
-          )
 
         },
         error: (errorResponse) => {
-          this.toastrService.error(errorResponse.error, 'Login Failed');
+          this.error(errorResponse.error, 'Login Failed');
         }
       })
-    )
+    );
+    
     return this.http.post<User>(`${this.apiServerURL}/users/login`, userLogin);
   }
-
-
-
-
-
 
   saveUser(backendUser:User) {
     this.user = backendUser;
