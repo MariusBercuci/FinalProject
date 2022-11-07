@@ -39,7 +39,7 @@ public class ShoppingCartMapper implements Mapper<ShoppingCart, ShoppingCartDto>
         CartItemDto cartItemDto = new CartItemDto();
         cartItemDto.setId(entity.getId());
         cartItemDto.setQuantity(entity.getQuantity());
-        cartItemDto.setDate(entity.getDate());
+        cartItemDto.setCreateTime(entity.getCreateTime());
         return cartItemDto;
 
     }

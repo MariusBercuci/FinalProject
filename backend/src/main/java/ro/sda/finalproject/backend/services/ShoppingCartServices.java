@@ -18,10 +18,9 @@ import ro.sda.finalproject.backend.repository.ShoppingCartRepository;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 @AllArgsConstructor
@@ -30,9 +29,7 @@ public class ShoppingCartServices {
     private final ShoppingCartRepository shoppingCartRepository;
     private final ShoppingCartMapper shoppingCartMapper;
     private final AppUserRepository appUserRepository;
-
     private final ProductsRepository productsRepository;
-
     private final CartItemRepository cartItemRepository;
 
     public ShoppingCartDto getShoppingCart(String email) {
@@ -90,5 +87,19 @@ public class ShoppingCartServices {
         appUser.setShoppingCart(newShoppingCart);
         appUserRepository.save(appUser);
         return newShoppingCart;
+    }
+
+    public void deleteShoppingCart(String email) {
+        AppUser appUser = appUserRepository.findUserByEmail(email).orElseThrow(() -> new EntityNotFoundException(String.format("No user with email " + email + " was found")));
+        ShoppingCart shoppingCart = appUser.getShoppingCart();
+        appUser.setShoppingCart(null);
+        shoppingCartRepository.delete(shoppingCart);
+    }
+
+    public void deleteItemFromShoppingCart(String email, String productName) {
+        CartItem cartItem = cartItemRepository.findCartItemsByShoppingCartAppUserEmailAndProductsProductName(email, productName).orElseThrow(() -> new EntityNotFoundException(String.format("No cart item with email " + email + " and product title " + productName + " was found")));
+        ShoppingCart shoppingCart = cartItem.getShoppingCart();
+        shoppingCart.setTotalPrice(shoppingCart.getTotalPrice().subtract(cartItem.getProducts().getProductPrice().multiply(new BigDecimal(cartItem.getQuantity()))));
+        cartItemRepository.delete(cartItem);
     }
 }

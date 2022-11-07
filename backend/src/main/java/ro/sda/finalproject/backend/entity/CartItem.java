@@ -27,5 +27,4 @@ public class CartItem {
     @ManyToOne(fetch = FetchType.LAZY,optional = false)
     @JoinColumn(name = "product_fk",nullable = false)
     private Products products;
-
 }

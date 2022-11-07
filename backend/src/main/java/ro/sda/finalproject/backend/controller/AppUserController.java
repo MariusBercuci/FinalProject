@@ -8,9 +8,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.web.bind.annotation.*;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.dto.LoginDto;
-import ro.sda.finalproject.backend.entity.AppUserDetails;
 import ro.sda.finalproject.backend.entity.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
+import ro.sda.finalproject.backend.exception.UserNotFoundException;
 import ro.sda.finalproject.backend.services.AppUserServices;
 
 
@@ -50,7 +50,8 @@ public class AppUserController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<AppUserDto> registerNewUser(@RequestBody @Valid AppUserDto appUserDto){
+    @Valid
+    public ResponseEntity<AppUserDto> registerNewUser(@RequestBody AppUserDto appUserDto) throws UserNotFoundException,EmailExistException {
         AppUserDto newAppUserDto = appUserServices.registerNewUser(appUserDto);
         return new ResponseEntity<>(newAppUserDto,HttpStatus.CREATED);
     }

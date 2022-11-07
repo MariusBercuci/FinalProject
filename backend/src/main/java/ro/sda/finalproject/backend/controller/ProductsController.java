@@ -12,6 +12,7 @@ import ro.sda.finalproject.backend.exception.IdExistException;
 import ro.sda.finalproject.backend.services.ProductsServices;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 
 
@@ -39,7 +40,7 @@ public class ProductsController {
     @PostMapping(value = "/create")
     public ResponseEntity<ProductsDto> createNewProducts(@RequestParam("imageFile") MultipartFile file,
                                                          @RequestParam("productName") String productName,
-                                                         @RequestParam("productPrice") Double productPrice,
+                                                         @RequestParam("productPrice") BigDecimal productPrice,
                                                          @RequestParam("productDetails") String productDetails,
                                                          @RequestParam("productCode") Long productCode)
             throws IdExistException {

@@ -6,7 +6,7 @@ import ro.sda.finalproject.backend.dto.AppRoleDto;
 import ro.sda.finalproject.backend.entity.AppRole;
 
 @Service
-public class RoleMapper implements Mapper<AppRole, AppRoleDto>{
+public class AppRoleMapper implements Mapper<AppRole, AppRoleDto>{
     @Override
     public AppRoleDto convertToDto(AppRole entity) {
         AppRoleDto dto = new AppRoleDto();

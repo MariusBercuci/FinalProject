@@ -26,7 +26,7 @@ public class AppUser implements Serializable {
     private String phone;
 
     @Column(nullable = false)
-    @ManyToMany(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(cascade = CascadeType.DETACH, fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_fk"),
@@ -37,7 +37,5 @@ public class AppUser implements Serializable {
     private ShoppingCart shoppingCart;
 
     @OneToMany(cascade = CascadeType.REMOVE, fetch = FetchType.LAZY, mappedBy = "appUser")
-    //@JsonIgnore
-    //@JsonManagedReference
     private Set<Products> products = new HashSet<>();
 }

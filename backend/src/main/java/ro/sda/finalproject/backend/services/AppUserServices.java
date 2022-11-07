@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import ro.sda.finalproject.backend.dto.AppUserDto;
 import ro.sda.finalproject.backend.entity.AppUser;
 import ro.sda.finalproject.backend.entity.AppUserDetails;
-import ro.sda.finalproject.backend.entity.AppRole;;
+import ro.sda.finalproject.backend.entity.AppRole;
 import ro.sda.finalproject.backend.entity.RoleName;
 import ro.sda.finalproject.backend.exception.EmailExistException;
 import ro.sda.finalproject.backend.exception.UserNotFoundException;
@@ -92,7 +92,7 @@ public class AppUserServices implements UserDetailsService {
     public AppUserDto createNewUser(String firstName, String lastName, String email, String phone, String password, RoleName roles) {
         validateNewUserEmail(EMPTY, email);
         AppUser appUser = new AppUser();
-        AppRole userAppRole = roleRepository.findAppRoleByRole(roles);
+        AppRole userAppRole = roleRepository.findByRole(roles);
 
         appUser.setEmail(email);
         appUser.setFirstName(firstName);
@@ -126,18 +126,17 @@ public class AppUserServices implements UserDetailsService {
         }
     }
 
-    public AppUserDto registerNewUser(AppUserDto appUserDto) {
-        validateNewUserEmail(EMPTY, appUserDto.getEmail());
-        AppUser appUser = new AppUser();
-        AppRole userAppRole = roleRepository.findAppRoleByRole(appUserDto.getRole().stream().findFirst().get().getRole());
+    public AppUserDto registerNewUser(AppUserDto appUserDto) throws UserNotFoundException,EmailExistException {
+        AppUser appUser = appUserMapper.convertToEntity(appUserDto);
+        AppRole userAppRole = roleRepository.findByRole(RoleName.ROLE_USER);
+        validateNewUserEmail(EMPTY, appUser.getEmail());
         //"role": [{"role" : "ROLE_ADMIN"}]
-        appUser.setEmail(appUserDto.getEmail());
-        appUser.setFirstName(appUserDto.getFirstName());
-        appUser.setLastName(appUserDto.getLastName());
-        appUser.setPhone(appUserDto.getPhone());
-        appUser.setPassword(passwordEncoder.encode(appUserDto.getPassword()));
+        appUser.setEmail(appUser.getEmail());
+        appUser.setFirstName(appUser.getFirstName());
+        appUser.setLastName(appUser.getLastName());
+        appUser.setPhone(appUser.getPhone());
+        appUser.setPassword(passwordEncoder.encode(appUser.getPassword()));
         appUser.setRole(Set.of(userAppRole));
-        appUser.setShoppingCart(appUserDto.getShoppingCart());
         appUserRepository.save(appUser);
         return appUserMapper.convertToDto(appUser);
 

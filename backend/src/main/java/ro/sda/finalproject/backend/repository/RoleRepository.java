@@ -10,6 +10,6 @@ import javax.management.relation.Role;
 @Repository
 public interface RoleRepository extends JpaRepository<AppRole,Long> {
 
-    AppRole findAppRoleByRole(RoleName roles);
+    AppRole findByRole(RoleName roles);
 
 }
