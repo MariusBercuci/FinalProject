@@ -20,8 +20,27 @@ export class UserService {
     this.userObservable = this.userSubject.asObservable();
   }
 
+  public get currentUser():User{
+    return this.userSubject.value;
+  }
+
   login(userLogin:IUserLogin):Observable<User>{
     //return this.http.post<User>(`$(this.apiUrl}/USER_LOGIN_URL`, userLogin)
+      tap({
+        next: (user) =>{
+          this.setUserToLocalStorage(user);
+          this.userSubject.next(user);
+          this.toastrService.success(
+            `Welcome to GSM Shop ${user.name}!` ,
+            'Login Successful'
+          )
+
+        },
+        error: (errorResponse) => {
+          this.toastrService.error(errorResponse.error, 'Login Failed');
+        }
+      })
+    )
     return this.http.post<User>(`${this.apiServerURL}/users/login`, userLogin);
   }
 
@@ -34,4 +53,15 @@ export class UserService {
     this.user = backendUser;
     //throw new Error('Method not implemented.');
   }
+
+  private setUserToLocalStorage(user:User){
+    localStorage.setItem(USER_KEY, JSON.stringify(user));
+  }
+
+  private getUserFromLocalStorage():User{
+    const userJson = localStorage.getItem(USER_KEY);
+    if(userJson) return JSON.parse(userJson) as User;
+    return new User();
+  }
+
 }

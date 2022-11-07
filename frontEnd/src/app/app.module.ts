@@ -15,7 +15,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { LoginPageComponent } from './components/pages/login-page/login-page.component';
  import {AppRoutingModule} from "./app-routing.module";
 
-
+ 
 const routes: Routes = [
   {path:'', component:HomeComponent},
   {path:'search/:searchTerm', component:HomeComponent},
@@ -37,7 +37,7 @@ const routes: Routes = [
     TitleComponent,
     NotFoundComponent,
     LoginPageComponent,
-
+    
 
   ],
   imports: [
@@ -46,6 +46,11 @@ const routes: Routes = [
     RouterModule.forRoot(routes,{onSameUrlNavigation:'reload'}),
     ReactiveFormsModule,
     HttpClientModule
+    ToastrModule.forRoot({
+      timeOut:4000,
+      positionClass:'toast-bottom-right',
+      newestOnTop:false
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -20,6 +20,7 @@ export class LoginPageComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
     private userService: UserService,
     private router: Router,
+    private router:Router,
     private http:HttpClient) { }
 
   ngOnInit(): void {
@@ -27,6 +28,9 @@ export class LoginPageComponent implements OnInit {
       email:['', [Validators.required,Validators.email]],
       password:['', Validators.required]
     });
+
+    this.returnUrl = this.activatedRoute.snapshot.queryParams.returnUrl;
+
   }
 
   get fc(){
