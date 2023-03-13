@@ -16,7 +16,8 @@ ul{
     display: flex;
     flex-direction: column;
     overflow: hidden;
-    color: #e72929;
+    color: black;
+    font-weight: bold;
   }
 
   li a:hover{
@@ -25,8 +26,8 @@ ul{
   }
 
   li a img{
-    object-fit: cover;
-    height: 14.5rem;
+    object-fit: contain;
+    height: 15rem;
   }
   
   .content{
@@ -53,4 +54,6 @@ ul{
     color: #414141;
     margin-top: 0.7rem;
     font-size: 1.1rem;
+    font-weight: bold;
+    background-color: hsla(89, 43%, 51%, 0.3);
   }

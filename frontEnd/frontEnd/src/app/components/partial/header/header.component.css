@@ -2,11 +2,11 @@ header{
     position: relative;
     background: white;
     padding: 0;
-    border-bottom: 1px solid #e72929;
+    border-bottom: 2px solid black;
 }
 
 a{
-    color: #af1313;
+    color: black;
 }
 
 a:hover{

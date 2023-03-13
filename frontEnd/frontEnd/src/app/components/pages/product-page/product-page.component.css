@@ -7,8 +7,8 @@
   }
 
   .container > *{
-    min-width: 25rem;
-    max-width: 40rem;
+    min-width: 20rem;
+    max-width: 15rem;
   }
 
   img{
@@ -56,12 +56,12 @@
   .price{
     font-size: 1.3rem;
     margin: 2rem 2rem 2rem 0;
-    color: green;
+    color: black;
   }
 
   .price::before{
     content: "Price: ";
-    color: darkgrey;
+    color: black;
   }
 
   button{
